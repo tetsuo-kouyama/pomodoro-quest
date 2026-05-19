@@ -135,7 +135,7 @@
 ![ER図](images/放置RPG-ER図.png)
 
 ## ユースケース図
-![ユースケース図](images/放置RPG-ユースケース図.drawio.png)
+![ユースケース図](images/放置RPG-ユースケース図.png)
 
 ## MVP実装機能リスト
 - [ ] トップページ
