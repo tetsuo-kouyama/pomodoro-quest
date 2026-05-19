@@ -129,13 +129,13 @@
 - URL: https://example.com
 
 ## 画面遷移図
-![画面遷移図](images/放置RPG画面遷移図.png)
+![画面遷移図](images/放置RPG-画面遷移図.png)
 
 ## ER図
-![ER図](images/放置RPG ER図.png)
+![ER図](images/放置RPG-ER図.png)
 
 ## ユースケース図
-![ユースケース図](images/放置RPG ユースケース図.drawio.png)
+![ユースケース図](images/放置RPG-ユースケース図.png)
 
 ## MVP実装機能リスト
 - [ ] トップページ
