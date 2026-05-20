@@ -1,0 +1,33 @@
+name: Run RSpec
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build and start containers
+        run: |
+          docker compose build
+          docker compose up -d
+
+      - name: Database setup
+        run: |
+          docker compose exec -T web rails db:prepare
+
+      - name: Run RSpec
+        run: |
+          docker compose exec -T web bundle exec rspec
+
+      - name: Stop containers
+        if: always()
+        run: docker compose down -v
