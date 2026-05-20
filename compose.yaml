@@ -10,12 +10,22 @@ services:
     stdin_open: true
     environment:
       - TZ=Asia/Tokyo
+      - SELENIUM_DRIVER_URL=http://chrome:4444/wd/hub
     depends_on:
       db:
         condition: service_healthy
+      chrome:
+        condition: service_started
     volumes:
       - .:/app
       - bundle_data:/usr/local/bundle
+
+  chrome:
+    image: selenium/standalone-chrome:latest
+    platform: linux/amd64
+    shm_size: 2gb
+    ports:
+      - "4444:4444"
 
   db:
     image: postgres:17

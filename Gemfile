@@ -45,6 +45,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem 'rspec-rails' # テスト全体のフレームワーク
+  gem 'factory_bot_rails' # テスト用データの作成自動化
 end
 
 group :development do
@@ -53,7 +56,6 @@ group :development do
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  gem "capybara" # ブラウザ操作をプログラムでシミュレート
+  gem "selenium-webdriver" # 実際のブラウザを裏側で自動操縦
 end
