@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+.top-page-container {
+  @apply min-h-screen w-full flex flex-col items-center justify-center;
+}
+
+.top-page-title {
+  @apply text-4xl font-bold mb-12 tracking-wider;
+}
+
+.top-page-button-group {
+  @apply flex flex-col gap-4 w-48;
+}
+
+.btn-primary-pink {
+  @apply w-full py-2 px-4 bg-[#ffc1e3] text-gray-800 font-semibold rounded-full shadow-sm hover:bg-[#ffa6d5] transition-colors text-center;
+}
