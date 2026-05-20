@@ -46,8 +46,8 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem 'rspec-rails' # テスト全体のフレームワーク
-  gem 'factory_bot_rails' # テスト用データの作成自動化
+  gem "rspec-rails" # テスト全体のフレームワーク
+  gem "factory_bot_rails" # テスト用データの作成自動化
 end
 
 group :development do
