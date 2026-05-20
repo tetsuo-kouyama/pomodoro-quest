@@ -1,0 +1,17 @@
+<% content_for(:title, "新規登録") %>
+
+<div class="auth-container">
+  <h1 class="auth-title">新規登録</h1>
+
+  <%= render "shared/auth_form",
+        model: @user,
+        url: users_path,
+        scope: nil,
+        show_name: true,
+        show_password_confirmation: true,
+        submit_text: "登録" %>
+
+  <div class="auth-link">
+    <%= link_to "ログインページへ", login_path %>
+  </div>
+</div>

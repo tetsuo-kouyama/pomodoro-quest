@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ==========================================
+   トップページ用スタイル
+   ========================================== */
 .top-page-container {
   @apply min-h-screen w-full flex flex-col items-center justify-center;
 }
@@ -14,4 +17,41 @@
 
 .btn-primary-pink {
   @apply w-full py-2 px-4 bg-[#ffc1e3] text-gray-800 font-semibold rounded-full shadow-sm hover:bg-[#ffa6d5] transition-colors text-center;
+}
+
+/* ==========================================
+   認証画面（ログイン・新規登録）用スタイル
+   ========================================== */
+@layer utilities {
+  .auth-container {
+    @apply fixed inset-0 flex flex-col items-center justify-center bg-white p-5;
+  }
+
+  .auth-title {
+    @apply text-3xl font-bold mb-10 text-gray-800;
+  }
+
+  .auth-form {
+    @apply w-full max-w-[320px] flex flex-col gap-6;
+  }
+
+  .form-group {
+    @apply flex flex-col gap-2;
+  }
+
+  .form-label {
+    @apply text-sm text-gray-600 text-left;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2 text-base border border-gray-300 rounded-full outline-none transition-colors focus:border-[#ffc1e3];
+  }
+
+  .auth-button {
+    @apply w-full py-2.5 text-base font-semibold text-gray-800 bg-[#ffc1e3] rounded-full shadow-sm hover:bg-[#ffa6d5] transition-colors cursor-pointer;
+  }
+
+  .auth-link {
+    @apply mt-8 text-sm text-gray-500 underline hover:text-gray-800;
+  }
 }
