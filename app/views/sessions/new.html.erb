@@ -3,13 +3,21 @@
 <div class="auth-container">
   <h1 class="auth-title">ログイン</h1>
 
-  <%= render "shared/auth_form",
-      model: nil,
-      url: login_path,
-      scope: :session,
-      show_name: false,
-      show_password_confirmation: false,
-      submit_text: "ログイン" %>
+  <%= form_with scope: :session, url: login_path, class: "auth-form" do |f| %>
+    <div class="form-group">
+      <%= f.label :email, "メールアドレス", class: "form-label" %>
+      <%= f.email_field :email, class: "form-input", placeholder: "example@email.com", required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, "パスワード", class: "form-label" %>
+      <%= f.password_field :password, class: "form-input", required: true %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "ログイン", class: "auth-button" %>
+    </div>
+  <% end %>
 
   <div class="auth-link">
     <%= link_to "新規登録ページへ", new_user_path %>

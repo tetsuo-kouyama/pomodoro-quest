@@ -14,13 +14,21 @@
 
   <div class="form-group">
     <%= f.label :password, "パスワード", class: "form-label" %>
-    <%= f.password_field :password, class: "form-input", minlength: 6,  placeholder: "6文字以上", required: true %>
+    <%= f.password_field :password,
+        class: "form-input",
+        minlength: (show_password_confirmation ? 6 : nil),
+        placeholder: (show_password_confirmation ? "6文字以上" : ""),
+        required: true %>
   </div>
 
   <% if show_password_confirmation %>
     <div class="form-group">
       <%= f.label :password_confirmation, "パスワード(確認)", class: "form-label" %>
-      <%= f.password_field :password_confirmation, class: "form-input", minlength: 6, placeholder: "6文字以上", required: true %>
+      <%= f.password_field :password_confirmation,
+          class: "form-input",
+          minlength: 6,
+          placeholder: "6文字以上",
+          required: true %>
     </div>
   <% end %>
 
