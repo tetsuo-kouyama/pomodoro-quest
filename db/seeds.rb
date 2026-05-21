@@ -1,9 +1,31 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# ==========================================
+# 1. 本番・開発共通の「マスターデータ」（モンスター定義）
+# ==========================================
+
+# 古いモンスターデータをリセット
+Monster.destroy_all
+
+# モンスターデータを投入
+Monster.create!([
+  {
+    name: 'スライム',
+    base_hp: 10,
+    base_atk: 3,
+    base_def: 1,
+    hire_cost: 50
+  },
+  {
+    name: 'ゴブリン',
+    base_hp: 25,
+    base_atk: 7,
+    base_def: 3,
+    hire_cost: 100
+  },
+  {
+    name: 'オーク',
+    base_hp: 80,
+    base_atk: 15,
+    base_def: 8,
+    hire_cost: 300
+  }
+])
