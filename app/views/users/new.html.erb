@@ -3,6 +3,8 @@
 <div class="auth-container">
   <h1 class="auth-title">新規登録</h1>
 
+  <%= render "shared/error_messages", object: @user %>
+
   <%= render "shared/auth_form",
         model: @user,
         url: users_path,
