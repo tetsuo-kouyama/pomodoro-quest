@@ -14,7 +14,7 @@ RSpec.describe "Sessions", type: :request do
         }
 
         expect(session[:user_id]).to eq(user.id)
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(owned_monsters_path)
       end
     end
 

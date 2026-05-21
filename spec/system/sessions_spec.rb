@@ -11,7 +11,7 @@ RSpec.describe 'Sessions', type: :system do
       click_button 'ログイン'
 
       expect(page).to have_content 'ログインしました'
-      expect(page).to have_current_path(root_path)
+      expect(page).to have_current_path(owned_monsters_path)
     end
 
     it 'ログインに失敗する' do

@@ -11,7 +11,7 @@ RSpec.describe 'Users', type: :system do
       click_button '登録'
 
       expect(page).to have_content '登録しました'
-      expect(page).to have_current_path(root_path)
+      expect(page).to have_current_path(owned_monsters_path)
     end
 
     it '登録に失敗する' do

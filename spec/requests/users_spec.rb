@@ -15,7 +15,7 @@ RSpec.describe 'Users', type: :request do
           }
         }.to change(User, :count).by(1)
 
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(owned_monsters_path)
       end
     end
 
