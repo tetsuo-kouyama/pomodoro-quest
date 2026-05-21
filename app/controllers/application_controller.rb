@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
-  helper_method :current_user
+  helper_method :current_user, :logged_in?
 
   private
 
@@ -13,5 +13,9 @@ class ApplicationController < ActionController::Base
     unless current_user
       redirect_to login_path, alert: "ログインして下さい"
     end
+  end
+
+  def logged_in?
+    current_user.present?
   end
 end

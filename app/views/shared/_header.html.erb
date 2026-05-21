@@ -1,0 +1,24 @@
+<header class="bg-white border-b-2 border-slate-800 px-5 py-4 flex items-center shadow-sm select-none">
+
+  <div class="flex items-center mr-4">
+    <span class="text-sm font-black text-slate-800 bg-slate-100 px-3 py-1 rounded-lg border border-slate-300">
+      👤 <%= current_user.name %>
+    </span>
+  </div>
+
+  <div class="flex items-center gap-1.5 bg-amber-50 px-3 py-1 rounded-full border-2 border-slate-800 shadow-sm mr-auto">
+    <svg class="w-4 h-4 text-amber-400 fill-current stroke-slate-800 stroke-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" class="text-amber-500/50" />
+    </svg>
+    <span class="text-xs font-black text-slate-800 tracking-wide">
+      <%= current_user.gold %>G
+    </span>
+  </div>
+
+  <div>
+    <%= button_to "ログアウト", logout_path, method: :delete,
+          class: "px-2.5 py-1.5 bg-white hover:bg-rose-50 hover:text-rose-600 hover:border-rose-600 active:translate-y-0.5 text-xs font-bold text-slate-500 rounded border-2 border-slate-800 shadow-[1px_1px_0_rgba(15,23,42,1)] cursor-pointer transition-all" %>
+  </div>
+
+</header>
