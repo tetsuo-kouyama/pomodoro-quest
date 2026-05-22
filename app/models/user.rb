@@ -8,4 +8,16 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 6 }, confirmation: true, allow_nil: true
   validates :gold, numericality: { greater_than_or_equal_to: 0 }
+
+  def can_hire?(monster)
+    gold >= monster.hire_cost
+  end
+
+  def hire_monster!(owned_monster, monster)
+    transaction do
+      decrement!(:gold, monster.hire_cost)
+
+      owned_monster.save!
+    end
+  end
 end

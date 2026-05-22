@@ -3,39 +3,10 @@
 <div class="max-w-xl mx-auto my-10 bg-white p-10 rounded-2xl shadow-xl border border-gray-100">
 
   <div class="text-center mb-8">
-    <h2 class="text-3xl font-black text-gray-800 tracking-wide">仲間を雇用する</h2>
+    <h2 class="text-3xl font-black text-gray-800 tracking-wide">モンスターを雇用する</h2>
   </div>
 
-  <%= form_with model: @owned_monster, class: "space-y-6" do |f| %>
-
-    <div class="flex flex-col gap-2">
-      <%= f.label :nickname, "ニックネーム（任意）", class: "text-sm font-bold text-gray-700 tracking-wider" %>
-      <%= f.text_field :nickname,
-            placeholder: "例: スラりん (空欄時は種族名)",
-            class: "px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-800 placeholder-gray-400 transition-all duration-200" %>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <%= f.label :monster_id, "雇うモンスター", class: "text-sm font-bold text-gray-700 tracking-wider" %>
-      <div class="relative">
-        <%= f.collection_select :monster_id, @monsters, :id, ->(m) { "#{m.name} (費用: #{m.hire_cost}G)" },
-              { prompt: "モンスターを選択してください" },
-              { required: true,
-                class: "w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-800 appearance-none cursor-pointer transition-all duration-200" } %>
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-          <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <div class="pt-4">
-      <%= f.submit "雇用する",
-            class: "w-full py-5 bg-pink-400 hover:bg-pink-300 active:scale-[0.98] text-white font-black text-lg rounded-xl shadow-lg shadow-pink-200/20 tracking-wider cursor-pointer transition-all duration-150" %>
-    </div>
-
-  <% end %>
+  <%= render "form", owned_monster: @owned_monster, monsters: @monsters %>
 
   <div class="text-center mt-6">
     <%= link_to "← 街に戻る", owned_monsters_path, class: "text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors" %>
