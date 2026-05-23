@@ -1,7 +1,9 @@
 FactoryBot.define do
   factory :owned_monster do
-    user { nil }
-    monster { nil }
+    association :user
+    association :monster
+
+    nickname { "test" }
     level { 1 }
     active { false }
     party_position { 1 }

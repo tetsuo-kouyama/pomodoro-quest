@@ -61,4 +61,37 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#can_hire?' do
+    let(:monster) { build(:monster, hire_cost: 100) }
+
+    context '所持金が足りる場合' do
+      it 'trueを返す' do
+        user = build(:user, gold: 100)
+        expect(user.can_hire?(monster)).to be true
+      end
+    end
+
+    context '所持金が足りない場合' do
+      it 'falseを返す' do
+        user = build(:user, gold: 99)
+        expect(user.can_hire?(monster)).to be false
+      end
+    end
+  end
+
+  describe '#hire_monster!' do
+    let(:user) { create(:user, gold: 500) }
+    let(:monster) { create(:monster, hire_cost: 100) }
+
+    it 'モンスターを雇用できる' do
+      owned_monster = user.owned_monsters.build(monster: monster)
+
+      expect {
+        user.hire_monster!(owned_monster, monster)
+      }.to change(OwnedMonster, :count).by(1)
+
+      expect(user.reload.gold).to eq(400)
+    end
+  end
 end

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :monster do
-    name { "MyString" }
+    name { "スライム" }
     base_hp { 1 }
     base_atk { 1 }
     base_def { 1 }

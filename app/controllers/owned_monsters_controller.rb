@@ -24,7 +24,7 @@ class OwnedMonstersController < ApplicationController
     redirect_to owned_monsters_path, notice: "#{@owned_monster.nickname}を雇用しました！"
 
   rescue ActiveRecord::RecordInvalid
-    # DBの最新状態を再取得することで、エラー時のgold表示が減少する問題を解決
+    # DBの最新状態を再取得することで、エラー時にgoldが減っているように見える問題を解決
     current_user.reload
     reload_form_on_failure("雇用できませんでした")
   end

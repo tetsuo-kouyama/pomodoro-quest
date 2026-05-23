@@ -24,4 +24,16 @@ RSpec.describe 'Sessions', type: :system do
       expect(page).to have_current_path(login_path)
     end
   end
+
+  describe 'ログアウト処理' do
+    it 'ログアウトする' do
+      login(user)
+      visit owned_monsters_path
+      click_button 'ログアウト'
+
+      expect(page).to have_content('ログアウトしました')
+      expect(page).not_to have_button('ログアウト')
+      expect(page).to have_current_path(root_path)
+    end
+  end
 end
