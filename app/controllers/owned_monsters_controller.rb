@@ -29,6 +29,10 @@ class OwnedMonstersController < ApplicationController
     reload_form_on_failure("雇用できませんでした")
   end
 
+  def show
+    @owned_monster = current_user.owned_monsters.find(params[:id])
+  end
+
   private
 
   def owned_monster_params

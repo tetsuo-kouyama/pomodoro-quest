@@ -1,4 +1,5 @@
-<div class="bg-white rounded-2xl shadow-sm p-4 border">
+<%= link_to owned_monster_path(owned_monster),
+      class: "block rounded-2xl bg-white shadow-sm border p-5 hover:bg-gray-50 hover:shadow-md active:scale-[0.99] transition cursor-pointer" do %>
 
   <div class="flex items-center justify-between">
     <h2 class="text-xl font-semibold">
@@ -14,12 +15,9 @@
 
   <div class="mt-4 space-y-1 text-sm text-gray-600">
     <p>Lv.<%= owned_monster.level %></p>
-
-    <p>HP: <%= owned_monster.monster.base_hp %></p>
-
-    <p>ATK: <%= owned_monster.monster.base_atk %></p>
-
-    <p>DEF: <%= owned_monster.monster.base_def %></p>
+    <p>HP: <%= owned_monster.hp %></p>
+    <p>ATK: <%= owned_monster.atk %></p>
+    <p>DEF: <%= owned_monster.def %></p>
   </div>
 
-</div>
+<% end %>

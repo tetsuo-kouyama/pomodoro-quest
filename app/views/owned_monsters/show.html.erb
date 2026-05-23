@@ -1,0 +1,42 @@
+<% content_for(:title, 'モンスター詳細') %>
+
+<div class="max-w-6xl mx-auto px-6 -mt-6 flex justify-center">
+  <div class="bg-white p-6 sm:p-10 lg:p-16 rounded-lg shadow-md max-w-xl w-full relative border border-gray-200">
+    <div class="absolute top-4 right-4">
+      <%= button_to "#",
+            method: :post,
+            class: "bg-fuchsia-300 hover:bg-fuchsia-200 text-slate-800 text-sm font-black py-2 px-3 rounded shadow-[1px_1px_0_rgba(15,23,42,1)] border-b-2 active:border-b-0 active:translate-y-[2px] transition-all cursor-pointer text-center select-none" do %>
+        <p>レベルアップ</p>
+        <p class="mt-0.5"><%= (@owned_monster.level + 1) * 100 %> gold</p>
+      <% end %>
+    </div>
+
+    <div class="text-slate-800 font-black space-y-4 pr-32">
+      <h1 class="text-xl"><%= @owned_monster.nickname %></h1>
+
+      <p class="text-base">種族 : <%= @owned_monster.monster.name %></p>
+      <p class="text-base">レベル : <%= @owned_monster.level %></p>
+
+      <div class="space-y-1.5 text-sm">
+        <p>ステータス</p>
+        <div class="pl-4 space-y-1.5">
+          <p>体力 : <%= @owned_monster.hp %></p>
+          <p>攻撃力 : <%= @owned_monster.atk %></p>
+          <p>防御力 : <%= @owned_monster.def %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-gray-100">
+      <%= link_to "解雇", owned_monster_path(@owned_monster),
+            method: :delete,
+            data: { confirm: "本当に解雇しますか？" },
+            class: "text-rose-600 text-base font-bold hover:text-rose-500 hover:underline" %>
+    </div>
+
+    <div class="text-center mt-6">
+      <%= link_to "← モンスター一覧", owned_monsters_path, class: "text-xs text-gray-500 hover:text-gray-700 hover:underline font-medium" %>
+    </div>
+
+  </div>
+</div>

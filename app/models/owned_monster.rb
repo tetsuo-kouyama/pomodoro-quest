@@ -6,9 +6,33 @@ class OwnedMonster < ApplicationRecord
 
   validates :nickname, length: { maximum: 20 }, allow_blank: true
 
+  def hp
+    monster.base_hp + (level - 1) * hp_growth
+  end
+
+  def atk
+    monster.base_atk + (level - 1) * atk_growth
+  end
+
+  def def
+    monster.base_def + (level - 1) * def_growth
+  end
+
   private
 
   def set_default_nickname
     self.nickname = monster.name if nickname.blank?
+  end
+
+  def hp_growth
+    10
+  end
+
+  def atk_growth
+    5
+  end
+
+  def def_growth
+    5
   end
 end
