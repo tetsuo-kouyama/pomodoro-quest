@@ -28,7 +28,6 @@ RSpec.describe 'Sessions', type: :system do
   describe 'ログアウト処理' do
     it 'ログアウトする' do
       login(user)
-      visit owned_monsters_path
       click_button 'ログアウト'
 
       expect(page).to have_content('ログアウトしました')
