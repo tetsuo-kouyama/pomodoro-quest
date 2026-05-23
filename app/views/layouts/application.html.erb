@@ -18,15 +18,14 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <% if logged_in? %>
-      <%= render "shared/header" %>
-    <% end %>
-
+  <body class="bg-gray-100 font-sans min-h-screen pb-24">
+    <%= render "shared/header" if logged_in? %>
     <%= render "shared/flash_messages" %>
 
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
+
+    <%= render "shared/bottom_navigation" if logged_in? %>
   </body>
 </html>
