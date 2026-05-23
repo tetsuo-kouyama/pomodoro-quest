@@ -1,0 +1,1 @@
+class InsufficientGoldError < StandardError; end
