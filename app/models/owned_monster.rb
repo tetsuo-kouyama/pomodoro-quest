@@ -1,5 +1,4 @@
 class OwnedMonster < ApplicationRecord
-
   before_validation :set_default_nickname
 
   belongs_to :user
