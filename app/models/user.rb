@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  class InsufficientGoldError < StandardError; end
   has_secure_password
 
   has_many :owned_monsters, dependent: :destroy
@@ -14,9 +15,10 @@ class User < ApplicationRecord
   end
 
   def hire_monster!(owned_monster, monster)
+    raise InsufficientGoldError unless can_hire?(monster)
+
     transaction do
       decrement!(:gold, monster.hire_cost)
-
       owned_monster.save!
     end
   end

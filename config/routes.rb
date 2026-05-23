@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   root "static_pages#top"
 
   resources :users, only: %i[ new create ]
-  resources :owned_monsters, only: %i[ index new create show destroy ]
+  resources :owned_monsters, only: %i[ index new create show destroy ] do
+    member do
+      post :levelup
+    end
+  end
 
   get "login", to: "sessions#new"
   post "login", to: "sessions#create"

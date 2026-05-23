@@ -1,4 +1,5 @@
 class OwnedMonster < ApplicationRecord
+
   before_validation :set_default_nickname
 
   belongs_to :user
@@ -16,6 +17,18 @@ class OwnedMonster < ApplicationRecord
 
   def def
     monster.base_def + (level - 1) * def_growth
+  end
+
+  def increment_level!(user)
+    raise User::InsufficientGoldError if user.gold < next_level_cost
+    transaction do
+      user.decrement!(:gold, next_level_cost)
+      increment!(:level)
+    end
+  end
+
+  def next_level_cost
+    (level + 1) * monster.hire_cost
   end
 
   private
