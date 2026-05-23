@@ -1,6 +1,6 @@
 class OwnedMonstersController < ApplicationController
   before_action :require_login
-  before_action :set_owned_monster
+  before_action :set_owned_monster, only: %i[ show destroy levelup ]
 
   def index
     @owned_monsters = current_user.owned_monsters.includes(:monster)
@@ -28,6 +28,11 @@ class OwnedMonstersController < ApplicationController
   end
 
   def show; end
+
+  def destroy
+    @owned_monster.destroy
+    redirect_to owned_monsters_path, notice: "モンスターを解雇しました", status: :see_other
+  end
 
   def levelup
     @owned_monster.increment_level!(current_user)
