@@ -30,4 +30,63 @@ RSpec.describe OwnedMonster, type: :model do
       end
     end
   end
+
+  describe 'ステータス処理' do
+    let(:monster) { create(:monster, name: 'test', base_hp: 10, base_atk: 5, base_def: 3) }
+    let(:owned_monster) { create(:owned_monster, monster: monster, level: level) }
+
+    describe 'HP' do
+      context 'level 1' do
+        let(:level) { 1 }
+
+        it 'base値と同じになる' do
+          expect(owned_monster.hp).to eq(monster.base_hp)
+        end
+      end
+
+      context 'level 2' do
+        let(:level) { 2 }
+
+        it '成長分が加算される' do
+          expect(owned_monster.hp).to eq(monster.base_hp + (level - 1) * 10)
+        end
+      end
+    end
+
+    describe '攻撃力' do
+      context 'level 1' do
+        let(:level) { 1 }
+
+        it 'base値と同じになる' do
+          expect(owned_monster.atk).to eq(monster.base_atk)
+        end
+      end
+
+      context 'level 2' do
+        let(:level) { 2 }
+
+        it '成長分が加算される' do
+          expect(owned_monster.atk).to eq(monster.base_atk + (level - 1) * 5)
+        end
+      end
+    end
+
+    describe '防御力' do
+      context 'level 1' do
+        let(:level) { 1 }
+
+        it 'base値と同じになる' do
+          expect(owned_monster.def).to eq(monster.base_def)
+        end
+      end
+
+      context 'level 2' do
+        let(:level) { 2 }
+
+        it '成長分が加算される' do
+          expect(owned_monster.def).to eq(monster.base_def + (level - 1) * 5)
+        end
+      end
+    end
+  end
 end
