@@ -52,6 +52,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "better_errors" # デフォルトのエラー画面を整形
+  gem "binding_of_caller" # better_errors の拡張機能を有効にする
 end
 
 group :test do
