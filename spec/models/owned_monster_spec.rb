@@ -89,4 +89,31 @@ RSpec.describe OwnedMonster, type: :model do
       end
     end
   end
+
+  describe '#increment_level!' do
+    let(:user) { create(:user, gold: 200) }
+    let(:monster) { create(:monster, hire_cost: 100) }
+    let!(:owned_monster) { create(:owned_monster, user: user, monster: monster) }
+
+    context 'ゴールドが足りている' do
+      it 'レベルが上がりゴールドが減る' do
+        expect do
+          owned_monster.increment_level!(user)
+        end.to change { owned_monster.reload.level }.by(1)
+        .and change { user.reload.gold }.from(200).to(0)
+      end
+    end
+
+    context 'ゴールドが不足している' do
+      let(:user) { create(:user, gold: 100) }
+
+      it '例外を発生させる' do
+        expect do
+          owned_monster.increment_level!(user)
+        end.to raise_error(InsufficientGoldError)
+        expect(user.reload.gold).to eq(100)
+        expect(owned_monster.reload.level).to eq(1)
+      end
+    end
+  end
 end

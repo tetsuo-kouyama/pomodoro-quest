@@ -19,7 +19,7 @@ class OwnedMonster < ApplicationRecord
   end
 
   def increment_level!(user)
-    raise User::InsufficientGoldError if user.gold < next_level_cost
+    raise InsufficientGoldError if user.gold < next_level_cost
     transaction do
       user.decrement!(:gold, next_level_cost)
       increment!(:level)

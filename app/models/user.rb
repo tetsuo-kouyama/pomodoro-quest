@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  class InsufficientGoldError < StandardError; end
   has_secure_password
 
   has_many :owned_monsters, dependent: :destroy

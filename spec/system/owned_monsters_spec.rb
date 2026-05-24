@@ -9,13 +9,42 @@ RSpec.describe 'OwnedMonsters', type: :system do
 
   # Selenium + Headless Chrome の初回起動が不安定なため
   # warmup 用exampleを先頭に置いている
-  it 'warmup' do
+  # it 'warmup' do
+  # end
+
+  describe 'モンスター一覧機能' do
+    it 'ヘッダーが表示されている' do
+      expect(page).to have_content(user.name)
+      expect(page).to have_content(user.gold.to_s)
+      expect(page).to have_button('ログアウト')
+    end
+
+    it 'フッターが表示されている' do
+      expect(page).to have_content('ホーム')
+      expect(page).to have_content('冒険')
+    end
+
+    context 'モンスターを所有している' do
+      let!(:owned_monster) { create(:owned_monster, user: user, monster: monster) }
+
+      it 'モンスターが表示される' do
+        refresh
+        expect(page).to have_content('所持: 1体')
+        expect(page).to have_content(owned_monster.nickname)
+      end
+    end
+
+    context 'モンスターを所有していない' do
+      it 'モンスターが表示されない' do
+        expect(page).to have_content('所持: 0体')
+      end
+    end
   end
 
   describe 'モンスター雇用機能' do
     before { visit new_owned_monster_path }
 
-    context '所持金が足りている' do
+    context 'ゴールドが足りている' do
       it 'モンスターを雇用できる' do
         fill_in 'ニックネーム(任意)', with: 'スライム'
         select "#{monster.name} (費用: #{monster.hire_cost}G)", from: '雇うモンスター'
@@ -26,7 +55,7 @@ RSpec.describe 'OwnedMonsters', type: :system do
       end
     end
 
-    context '所持金が足りていない' do
+    context 'ゴールドが不足している' do
       let(:user) { create(:user, gold: 50) }
 
       it 'モンスターを雇用できない' do
@@ -51,11 +80,45 @@ RSpec.describe 'OwnedMonsters', type: :system do
   end
 
   describe 'モンスター詳細機能' do
+    before { visit owned_monster_path(owned_monster) }
+
     it 'ステータスが表示される' do
-      visit owned_monster_path(owned_monster)
       expect(page).to have_content('体力')
       expect(page).to have_content('攻撃力')
       expect(page).to have_content('防御力')
+    end
+
+    describe 'レベルアップ機能' do
+      context 'ゴールドが足りている' do
+        let(:user) { create(:user, gold: 200) }
+
+        it 'レベルが1上がる' do
+          click_button 'レベルアップ'
+          expect(page).to have_content('レベルアップしました')
+          expect(owned_monster.reload.level).to eq(2)
+          expect(user.reload.gold).to eq(0)
+        end
+      end
+
+      context 'ゴールドが不足している' do
+        it 'レベルが上がらない' do
+          click_button 'レベルアップ'
+          expect(page).to have_content('ゴールドが足りません')
+          expect(owned_monster.reload.level).to eq(1)
+          expect(user.reload.gold).to eq(100)
+        end
+      end
+    end
+
+    describe '削除機能' do
+      it 'モンスターを削除する' do
+        accept_confirm do
+          click_button '解雇'
+        end
+        expect(page).to have_current_path(owned_monsters_path)
+        expect(page).to have_content('モンスターを解雇しました')
+        expect(OwnedMonster.exists?(owned_monster.id)).to be(false)
+      end
     end
   end
 end

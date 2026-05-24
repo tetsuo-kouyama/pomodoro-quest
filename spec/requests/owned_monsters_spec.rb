@@ -27,7 +27,7 @@ RSpec.describe 'OwnedMonsters', type: :request do
     let(:monster) { create(:monster, hire_cost: 100) }
     before { login(user) }
 
-    context '所持金が足りている' do
+    context 'ゴールドが足りている' do
       it '雇用できる' do
         expect do
           post owned_monsters_path,
@@ -43,7 +43,7 @@ RSpec.describe 'OwnedMonsters', type: :request do
       end
     end
 
-    context '所持金が不足している' do
+    context 'ゴールドが不足している' do
       let(:user) { create(:user, gold: 50) }
 
       it '雇用できない' do
@@ -68,6 +68,47 @@ RSpec.describe 'OwnedMonsters', type: :request do
     it '成功する' do
       get owned_monster_path(owned_monster)
       expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe 'POST /owned_monsters/:id/levelup' do
+    let(:user) { create(:user, gold: 200) }
+    let(:monster) { create(:monster, hire_cost: 100) }
+    let(:owned_monster) { create(:owned_monster, user: user, monster: monster) }
+    before { login(user) }
+
+    context 'ゴールドが足りている' do
+      it 'レベルが1上がる' do
+        expect do
+          post levelup_owned_monster_path(owned_monster)
+        end.to change { owned_monster.reload.level }
+        expect(user.reload.gold).to eq(0)
+        expect(response).to redirect_to(owned_monster_path(owned_monster))
+      end
+    end
+
+    context 'ゴールドが不足している' do
+      let(:user) { create(:user, gold: 100) }
+
+      it 'レベルが上がらない' do
+        expect do
+          post levelup_owned_monster_path(owned_monster)
+        end.not_to change { owned_monster.reload.level }
+        expect(user.reload.gold).to eq(100)
+        expect(response).to redirect_to(owned_monster_path(owned_monster))
+      end
+    end
+  end
+
+  describe 'DELETE /owned_monsters/:id' do
+    before { login(user) }
+
+    it 'モンスターを削除する' do
+      expect do
+        delete owned_monster_path(owned_monster)
+      end.to change(OwnedMonster, :count).by(0)
+      expect(response).to redirect_to(owned_monsters_path)
+      expect(response).to have_http_status(:see_other)
     end
   end
 end

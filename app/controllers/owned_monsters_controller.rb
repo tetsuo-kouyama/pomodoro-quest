@@ -19,7 +19,7 @@ class OwnedMonstersController < ApplicationController
 
     redirect_to owned_monsters_path, notice: "#{@owned_monster.nickname}を雇用しました！"
 
-  rescue User::InsufficientGoldError
+  rescue InsufficientGoldError
     reload_form_on_failure("ゴールドが足りません(必要: #{@monster.hire_cost}G / 所持: #{current_user.gold}G)")
   rescue ActiveRecord::RecordInvalid
     # DBの最新状態を再取得することで、エラー時にgoldが減っているように見える問題を解決
@@ -38,7 +38,7 @@ class OwnedMonstersController < ApplicationController
     @owned_monster.increment_level!(current_user)
     redirect_to owned_monster_path(@owned_monster), notice: "レベルアップしました！"
 
-  rescue User::InsufficientGoldError
+  rescue InsufficientGoldError
     redirect_to owned_monster_path(@owned_monster), alert: "ゴールドが足りません(必要: #{@owned_monster.next_level_cost}G / 所持: #{current_user.gold}G)"
   end
 
