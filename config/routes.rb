@@ -7,6 +7,13 @@ Rails.application.routes.draw do
       post :levelup
     end
   end
+  resources :adventures, only: %i[ new create ]
+  resource :party, only: %i[ show edit ] do
+    member do
+      patch :add_monster
+      patch :remove_monster
+    end
+  end
 
   get "login", to: "sessions#new"
   post "login", to: "sessions#create"

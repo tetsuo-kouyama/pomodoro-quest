@@ -6,6 +6,8 @@ class OwnedMonster < ApplicationRecord
 
   validates :nickname, length: { maximum: 20 }, allow_blank: true
 
+  MAX_PARTY_SIZE = 5
+
   def hp
     monster.base_hp + (level - 1) * hp_growth
   end

@@ -1,0 +1,14 @@
+  <div id="active" class="bg-slate-200 p-4 rounded-xl border-2 border-slate-800 space-y-2">
+    <% (1..OwnedMonster::MAX_PARTY_SIZE).each do |i| %>
+      <% active_monster = monster_in_slot(active_monsters, i) %>
+      <div class="bg-white p-3 rounded-lg flex justify-between items-center font-black text-sm text-slate-800 shadow-sm">
+        <div class="flex items-center gap-4">
+          <span class="text-slate-400 text-xs"><%= i %></span>
+          <span><%= active_monster&.nickname || "空きスロット" %></span>
+        </div>
+        <% if active_monster %>
+          <%= link_to "外す", remove_monster_party_path(owned_monster_id: active_monster.id), data: { turbo_method: :patch }, class: "text-xs bg-slate-100 hover:bg-slate-200 border border-slate-300 px-3 py-1 rounded" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>

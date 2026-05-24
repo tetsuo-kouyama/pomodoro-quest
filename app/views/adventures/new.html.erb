@@ -1,0 +1,30 @@
+<% content_for(:title, "作戦準備") %>
+
+  <%= render "shared/upper_navigation" %>
+
+  <div class="p-5 space-y-6">
+
+    <%= link_to edit_party_path, class: "block no-underline" do %>
+      <div class="bg-white p-4 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0_rgba(15,23,42,1)] hover:bg-slate-50 transition-all">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-xs font-black text-slate-400">現在のパーティ</span>
+          <span class="text-xs font-black text-fuchsia-500 bg-fuchsia-50 px-2 py-0.5 rounded border border-fuchsia-200">編成する →</span>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="bg-white p-5 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0_rgba(15,23,42,1)] space-y-4 font-black text-slate-800">
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">ダンジョン</label>
+        <div class="p-3 bg-slate-50 border-2 border-slate-800 rounded-lg text-sm">ダンジョンを選択 ▼</div>
+      </div>
+      <div>
+        <label class="block text-xs text-slate-400 mb-1">冒険時間</label>
+        <div class="p-3 bg-slate-50 border-2 border-slate-800 rounded-lg text-sm">時間を選択 ▼</div>
+      </div>
+    </div>
+
+    <div class="text-center pt-4">
+      <%= button_to "冒険する", '#', class: "w-full py-4 bg-fuchsia-300 text-slate-800 font-black rounded-xl border-2 border-slate-800 border-b-4 shadow-md active:translate-y-0.5 active:border-b-2 active:shadow-sm transition-all" %>
+    </div>
+  </div>

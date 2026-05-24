@@ -1,0 +1,6 @@
+<%= turbo_stream.replace "inactive" do %>
+  <%= render "parties/inactive_monsters", inactive_monsters: @inactive_monsters %>
+<% end %>
+<%= turbo_stream.replace "active" do %>
+  <%= render "parties/active_monsters", active_monsters: @active_monsters %>
+<% end %>

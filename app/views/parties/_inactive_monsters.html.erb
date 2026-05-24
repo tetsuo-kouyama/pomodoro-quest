@@ -1,0 +1,8 @@
+<div id="inactive">
+  <% inactive_monsters.each do |owned_monster| %>
+    <div class="bg-white p-4 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0_rgba(15,23,42,1)] flex justify-between items-center font-black text-sm text-slate-800">
+      <span><%= owned_monster.nickname %></span>
+      <%= link_to "入れる", add_monster_party_path(owned_monster_id: owned_monster.id), data: { turbo_method: :patch }, class: "text-xs bg-fuchsia-100 hover:bg-fuchsia-200 border-2 border-fuchsia-300 text-fuchsia-700 px-3 py-1 rounded-lg" %>
+    </div>
+  <% end %>
+</div>
