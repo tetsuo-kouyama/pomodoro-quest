@@ -1,0 +1,19 @@
+<div class="fixed top-20 left-0 right-0 z-40 max-w-md mx-auto bg-white border-b border-slate-200 select-none">
+  <div class="flex justify-around items-center h-12">
+
+    <% is_strategy = current_page?(new_adventure_path) || current_page?(edit_party_path) %>
+
+    <%= link_to new_adventure_path,
+        class: "flex items-center justify-center w-full h-full border-b-2 font-black text-sm transition-all #{is_strategy ? 'border-fuchsia-500 text-fuchsia-500' : 'border-transparent text-slate-500 hover:text-slate-800'}" do %>
+      作戦
+    <% end %>
+
+    <% is_history = current_page?('#') %>
+
+    <%= link_to '#',
+        class: "flex items-center justify-center w-full h-full border-b-2 font-black text-sm transition-all #{is_history ? 'border-fuchsia-500 text-fuchsia-500' : 'border-transparent text-slate-500 hover:text-slate-800'}" do %>
+      履歴
+    <% end %>
+
+  </div>
+</div>
