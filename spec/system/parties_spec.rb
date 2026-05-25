@@ -10,11 +10,14 @@ RSpec.describe 'Parties', type: :system do
 
   describe 'モンスター一覧' do
     it '昇順に並んでいる' do
-      create_list(:owned_monster, 3, user: user, monster: monster)
+      create(:owned_monster, user: user, monster: monster, nickname: 'A')
+      create(:owned_monster, user: user, monster: monster, nickname: 'B')
+      create(:owned_monster, user: user, monster: monster, nickname: 'C')
       visit edit_party_path
+      names = all('#inactive span')
+          .map(&:text)
 
-      expect(page.body.index('name1')).to be < page.body.index('name2')
-      expect(page.body.index('name2')).to be < page.body.index('name3')
+      expect(names).to eq(%w[A B C])
     end
   end
 
