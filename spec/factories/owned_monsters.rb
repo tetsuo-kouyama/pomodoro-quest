@@ -3,9 +3,13 @@ FactoryBot.define do
     association :user
     association :monster
 
-    nickname { "test" }
+    sequence(:nickname) { |n| "name#{n}" }
     level { 1 }
     active { false }
-    party_position { 1 }
+    party_position { nil }
+
+    trait :active do
+      active { true }
+    end
   end
 end
