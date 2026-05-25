@@ -2,11 +2,7 @@
 # 1. 本番・開発共通の「マスターデータ」（モンスター定義）
 # ==========================================
 
-# 古いモンスターデータをリセット
-Monster.destroy_all
-
-# モンスターデータを投入
-Monster.create!([
+monsters = [
   {
     name: 'スライム',
     base_hp: 10,
@@ -28,4 +24,31 @@ Monster.create!([
     base_def: 8,
     hire_cost: 300
   }
-])
+]
+
+monsters.each do |monster|
+  Monster.find_or_initialize_by(name: monster[:name])
+         .update!(monster)
+end
+
+# ==========================================
+#  2. 本番・開発共通の「マスターデータ」（ダンジョン定義）
+# ==========================================
+
+dungeons = [
+  {
+    name: "スライムの洞窟",
+    difficulty: 1,
+    reward_gold: 100
+  },
+  {
+    name: "ゴブリンの森",
+    difficulty: 2,
+    reward_gold: 300
+  }
+]
+
+dungeons.each do |dungeon|
+  Dungeon.find_or_initialize_by(name: dungeon[:name])
+         .update!(dungeon)
+end

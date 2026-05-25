@@ -3,7 +3,6 @@ class Dungeon < ApplicationRecord
   has_many :users, through: :adventures
 
   validates :name, presence: true
-  validates :required_time, presence: true
   validates :difficulty, presence: true
-  validates :reward_gold, presence: true
+  validates :reward_gold, presence: true, numericality: { greater_than: 0 }
 end
