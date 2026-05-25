@@ -1,5 +1,4 @@
 class OwnedMonstersController < ApplicationController
-  before_action :require_login
   before_action :set_owned_monster, only: %i[ show destroy levelup ]
 
   def index
