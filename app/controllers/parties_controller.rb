@@ -6,7 +6,7 @@ class PartiesController < ApplicationController
 
   def add_monster
     if @active_monsters.size >= OwnedMonster::MAX_PARTY_SIZE
-      redirect_to edit_party_path, alert: "これ以上編成できません"
+      flash.now[:alert] = "これ以上編成できません"
       return
     end
 
