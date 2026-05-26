@@ -1,5 +1,5 @@
-<nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t-2 border-slate-800 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] select-none z-50">
-  <div class="flex justify-around items-center h-20">
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-slate-800 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] select-none z-50">
+  <div class="max-w-md mx-auto flex justify-around items-center h-20">
 
     <% is_home = current_page?(owned_monsters_path) || current_page?(root_path) %>
     <%= link_to owned_monsters_path, class: "flex flex-col items-center justify-center w-full h-full gap-1 #{is_home ? 'text-fuchsia-500' : 'text-slate-600 hover:text-slate-800'}" do %>

@@ -6,6 +6,8 @@ class AdventuresController < ApplicationController
   end
 
   def create
+    Rails.logger.debug(adventure_params.inspect)
+    Rails.logger.debug(params.inspect)
     if current_user.adventures.ongoing.exists?
       redirect_to new_adventure_path, alert: "冒険中です"
       return
@@ -27,7 +29,7 @@ class AdventuresController < ApplicationController
 
     @adventure.start_at = Time.current
     @adventure.end_at = @adventure.start_at + @adventure.required_time.to_i
-    @adventure.reward_gold = @adventure.dungeon.reward_gold
+    @adventure.reward_gold = @adventure.dungeon&.reward_gold
     @adventure.status = :ongoing
 
     if @adventure.save
