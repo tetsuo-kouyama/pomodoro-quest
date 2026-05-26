@@ -45,9 +45,7 @@
         <%= f.label :required_time, "冒険時間", class: "block text-xs text-slate-400 mb-1" %>
         <%# 選択のプロンプトを「時間を〜」に修正、w-full を追加 %>
         <%= f.select :required_time,
-              @required_times.map { |time|
-                ["#{time / 60}分", time]
-              },
+              Adventure::DURATIONS,
               { prompt: "時間を選択してください" },
               { required: true, class: "p-3 bg-slate-50 border-2 border-slate-800 rounded-lg text-sm w-full cursor-pointer" } %>
       </div>

@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_25_152353) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_26_055237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "adventure_members", force: :cascade do |t|
+    t.bigint "owned_monster_id", null: false
+    t.bigint "adventure_id", null: false
+    t.integer "slot", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["adventure_id", "owned_monster_id"], name: "index_adventure_members_on_adventure_id_and_owned_monster_id", unique: true
+    t.index ["adventure_id"], name: "index_adventure_members_on_adventure_id"
+    t.index ["owned_monster_id"], name: "index_adventure_members_on_owned_monster_id"
+  end
 
   create_table "adventures", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -69,6 +80,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_25_152353) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "adventure_members", "adventures"
+  add_foreign_key "adventure_members", "owned_monsters"
   add_foreign_key "adventures", "dungeons"
   add_foreign_key "adventures", "users"
   add_foreign_key "owned_monsters", "monsters"
