@@ -1,18 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="adventure-timer"
 export default class extends Controller {
   static targets = ["time"]
+
   static values = {
     endTime: Number
   }
 
   connect() {
+    this.reloaded = false
+
     this.tick()
 
     this.timer = setInterval(() => {
       this.tick()
-    }, 1000);
+    }, 1000)
   }
 
   disconnect() {
@@ -31,12 +33,19 @@ export default class extends Controller {
 
       clearInterval(this.timer)
 
-      Turbo.visit(window.location.href)
+      if (this.reloaded) return
+
+      this.reloaded = true
+
+      setTimeout(() => {
+        Turbo.visit(window.location.href)
+      }, 300)
 
       return
     }
 
-    this.timeTarget.textContent = this.formatTime(remainingSeconds)
+    this.timeTarget.textContent =
+      this.formatTime(remainingSeconds)
   }
 
   formatTime(totalSeconds) {

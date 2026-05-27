@@ -1,6 +1,6 @@
 class AdventuresController < ApplicationController
   def new
-    @current_adventure = current_user.adventures.where(status: [ :ongoing, :finished ]).order(start_at: :desc).first
+    @current_adventure = current_user.adventures.latest_active.first
 
     if @current_adventure
       @current_adventure.check_completion!
@@ -14,8 +14,6 @@ class AdventuresController < ApplicationController
   end
 
   def create
-    Rails.logger.debug(adventure_params.inspect)
-    Rails.logger.debug(params.inspect)
     if current_user.adventures.ongoing.exists?
       redirect_to new_adventure_path, alert: "冒険中です"
       return
@@ -31,14 +29,9 @@ class AdventuresController < ApplicationController
     @adventure = current_user.adventures.new(adventure_params)
 
     # 冒険に出発させるパーティメンバーと冒険データを紐付ける
-    active_monsters.each do |monster|
-      @adventure.adventure_members.build(owned_monster_id: monster.id, slot: monster.party_position)
-    end
+    @adventure.assign_members(active_monsters)
 
-    @adventure.start_at = Time.current
-    @adventure.end_at = @adventure.start_at + @adventure.required_time.to_i
-    @adventure.reward_gold = @adventure.dungeon&.reward_gold
-    @adventure.status = :ongoing
+    @adventure.prepare_for_departure!
 
     if @adventure.save
       redirect_to new_adventure_path, notice: "冒険に出発しました!"
@@ -47,6 +40,37 @@ class AdventuresController < ApplicationController
       @dungeons = Dungeon.order(:difficulty)
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def claim
+    ActiveRecord::Base.transaction do
+      @adventure = current_user.adventures.lock.find(params[:id])
+
+      unless @adventure.finished?
+        redirect_to new_adventure_path, alert: "報酬を受け取れません"
+        return
+      end
+
+      result = @adventure.resolve_combat
+
+      final_reward = result[:reward]
+      is_victory = result[:victory]
+
+      current_user.update!(gold: current_user.gold + final_reward)
+      @adventure.update!(status: :claimed, reward_gold: final_reward)
+
+      flash_message =
+        if is_victory
+          "🎉 冒険大成功！ #{final_reward}G を獲得しました！"
+        else
+          "💀 冒険は失敗した… 命からがら #{final_reward}G を持ち帰った"
+        end
+
+      redirect_to new_adventure_path, notice: flash_message
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error e.message
+    redirect_to new_adventure_path, alert: "エラーが発生しました"
   end
 
   private

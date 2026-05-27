@@ -23,7 +23,7 @@
           </p>
         </div>
       <% else %>
-        <%= button_to "報酬を受け取る！", "#", method: :patch, class: "w-full py-3 bg-amber-400 text-slate-800 rounded-xl border-2 border-slate-800 font-black shadow-md" %>
+        <%= button_to "報酬を受け取る！", claim_adventure_path(@current_adventure), method: :patch, class: "w-full py-3 bg-amber-400 text-slate-800 rounded-xl border-2 border-slate-800 font-black shadow-md" %>
       <% end %>
     </div>
 
@@ -78,7 +78,6 @@
       </div>
 
       <%# 冒険するボタン %>
-      <%# 修正：不要な '#' を削除 %>
       <div class="text-center pt-4">
         <%= f.submit "冒険する", class: "w-full py-4 bg-fuchsia-300 text-slate-800 font-black rounded-xl border-2 border-slate-800 border-b-4 shadow-md active:translate-y-0.5 active:border-b-2 active:shadow-sm transition-all cursor-pointer" %>
       </div>
