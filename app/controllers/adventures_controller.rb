@@ -1,8 +1,16 @@
 class AdventuresController < ApplicationController
   def new
-    @adventure = Adventure.new
-    @active_monsters = current_user.owned_monsters.active_party
-    @dungeons = Dungeon.order(:difficulty)
+    @current_adventure = current_user.adventures.where(status: [ :ongoing, :finished ]).order(start_at: :desc).first
+
+    if @current_adventure
+      @current_adventure.check_completion!
+      @dungeon = @current_adventure.dungeon
+      @adventure_members = @current_adventure.adventure_members.includes(owned_monster: :monster)
+    else
+      @adventure = Adventure.new
+      @active_monsters = current_user.owned_monsters.active_party
+      @dungeons = Dungeon.order(:difficulty)
+    end
   end
 
   def create
