@@ -1,4 +1,8 @@
 class AdventuresController < ApplicationController
+  def index
+    @adventures = current_user.adventures.includes(:dungeon).order(created_at: :desc)
+  end
+
   def new
     @current_adventure = current_user.adventures.latest_active.first
 
