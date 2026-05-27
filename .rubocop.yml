@@ -1,18 +1,23 @@
 # Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+inherit_from:
+  - .rubocop_todo.yml
+
+plugins:
+  - rubocop-rspec
+
 AllCops:
   # 結果のsuggest部分を非表示にする
   SuggestExtensions: false
+
   # 最新のルールを適用する
   NewCops: enable
+
   # 何のルールに引っかかったか表示する
   DisplayCopNames: true
+
   # rubocopの対象外ファイル
   Exclude:
     - "Gemfile"
@@ -24,3 +29,25 @@ AllCops:
     - "lib/tasks/auto_annotate_models.rake"
     - "config/environments/*"
     - "config/puma.rb"
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false

@@ -25,6 +25,7 @@ RSpec.describe 'OwnedMonsters', type: :request do
   describe 'POST /owned_monsters' do
     let(:user) { create(:user, gold: 100) }
     let(:monster) { create(:monster, hire_cost: 100) }
+
     before { login(user) }
 
     context 'ゴールドが足りている' do
@@ -75,6 +76,7 @@ RSpec.describe 'OwnedMonsters', type: :request do
     let(:user) { create(:user, gold: 200) }
     let(:monster) { create(:monster, hire_cost: 100) }
     let(:owned_monster) { create(:owned_monster, user: user, monster: monster) }
+
     before { login(user) }
 
     context 'ゴールドが足りている' do
@@ -106,7 +108,7 @@ RSpec.describe 'OwnedMonsters', type: :request do
     it 'モンスターを削除する' do
       expect do
         delete owned_monster_path(owned_monster)
-      end.to change(OwnedMonster, :count).by(0)
+      end.not_to change(OwnedMonster, :count)
       expect(response).to redirect_to(owned_monsters_path)
       expect(response).to have_http_status(:see_other)
     end

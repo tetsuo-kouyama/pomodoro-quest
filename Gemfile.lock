@@ -281,6 +281,9 @@ GEM
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
+    rubocop-rspec (3.9.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.81)
     ruby-progressbar (1.13.0)
     rubyzip (3.3.0)
     securerandom (0.4.1)
@@ -352,6 +355,7 @@ DEPENDENCIES
   rails (~> 7.2.3, >= 7.2.3.1)
   rspec-rails
   rubocop-rails-omakase
+  rubocop-rspec
   selenium-webdriver
   sprockets-rails
   stimulus-rails
