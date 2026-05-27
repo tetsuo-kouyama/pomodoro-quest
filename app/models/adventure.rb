@@ -34,8 +34,21 @@ class Adventure < ApplicationRecord
     end
   end
 
+  # パーティの合計ステータス計算
+  def total_party_power
+    adventure_members.includes(owned_monster: :monster).sum do |member|
+      monster = member.owned_monster
+      monster.hp + monster.atk + monster.def
+    end
+  end
+
+  # クリアに必要な条件
+  def enemy_power
+    dungeon.difficulty * 100
+  end
+
   # 勝利判定
-  def calculate_result(party_power)
-    party_power >= dungeon.required_power
+  def calculate_combat_result
+    total_party_power >= enemy_power
   end
 end
