@@ -72,7 +72,7 @@ class Adventure < ApplicationRecord
   def prepare_for_departure!
     self.start_at = Time.current
     self.end_at = start_at + required_time.to_i
-    self.reward_gold = dungeon.reward_gold
+    self.reward_gold = dungeon&.reward_gold
     self.status = :ongoing
   end
 
