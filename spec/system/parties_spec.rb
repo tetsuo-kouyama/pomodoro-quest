@@ -22,7 +22,7 @@ RSpec.describe 'Parties', type: :system do
   end
 
   describe 'パーティ編成機能' do
-    describe '追加' do
+    describe '追加処理' do
       let!(:owned_monster) { create(:owned_monster, user: user, monster: monster) }
 
       context '空いている枠がある' do
@@ -47,7 +47,7 @@ RSpec.describe 'Parties', type: :system do
       end
     end
 
-    describe '削除' do
+    describe '外す処理' do
       let!(:owned_monster) { create(:owned_monster, :active, party_position: 1, user: user, monster: monster) }
 
       context 'モンスターを外す' do
@@ -58,6 +58,36 @@ RSpec.describe 'Parties', type: :system do
           expect(page).to have_selector('#inactive', text: owned_monster.nickname)
           expect(page).not_to have_selector('#active', text: owned_monster.nickname)
           expect(page).not_to have_content('外す')
+        end
+      end
+    end
+
+    describe 'パーティ編集制御' do
+      context 'すでに冒険している' do
+        it 'パーティを変更できない' do
+          create(:adventure, :ongoing, user: user)
+          visit edit_party_path
+
+          expect(page).to have_current_path(new_adventure_path)
+          expect(page).to have_content('冒険中はパーティを変更できません')
+        end
+      end
+
+      context '報酬受け取り前' do
+        it 'パーティを変更できない' do
+          create(:adventure, :finished, user: user)
+          visit edit_party_path
+
+          expect(page).to have_current_path(new_adventure_path)
+        end
+      end
+
+      context '報酬受け取り後' do
+        it 'パーティを変更できる' do
+          create(:adventure, :claimed, user: user)
+          visit edit_party_path
+
+          expect(page).to have_current_path(edit_party_path)
         end
       end
     end

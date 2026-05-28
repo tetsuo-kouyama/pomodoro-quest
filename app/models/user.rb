@@ -24,4 +24,8 @@ class User < ApplicationRecord
       owned_monster.save!
     end
   end
+
+  def adventuring?
+    adventures.unclaimed.exists?
+  end
 end

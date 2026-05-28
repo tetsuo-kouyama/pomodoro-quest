@@ -29,6 +29,25 @@ RSpec.describe OwnedMonster, type: :model do
         expect(owned_monster.nickname).to eq(monster.name)
       end
     end
+
+    describe 'party_position' do
+      let(:user) { create(:user) }
+      let!(:owned_monster) { create(:owned_monster, user: user, party_position: 1) }
+
+      context '有効の場合' do
+        it 'party_positionが重複しない' do
+          valid_monster = build(:owned_monster, user: user, party_position: 2)
+          expect(valid_monster).to be_valid
+        end
+      end
+
+      context '無効の場合' do
+        it 'party_positionが重複する' do
+          invalid_monster = build(:owned_monster, user: user, party_position: 1)
+          expect(invalid_monster).to be_invalid
+        end
+      end
+    end
   end
 
   describe 'ステータス処理' do

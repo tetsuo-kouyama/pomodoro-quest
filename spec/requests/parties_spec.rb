@@ -42,6 +42,17 @@ RSpec.describe "Parties", type: :request do
         expect(flash[:alert]).to eq('これ以上編成できません')
       end
     end
+
+    context '冒険中' do
+      it 'パーティを変更できない' do
+        create(:adventure, :ongoing, user: user)
+
+        patch add_monster_party_path(owned_monster_id: owned_monster.id)
+
+        expect(response).to redirect_to(new_adventure_path)
+        expect(flash[:alert]).to eq('冒険中はパーティを変更できません')
+      end
+    end
   end
 
   describe 'PATCH /party/remove_monster' do

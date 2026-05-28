@@ -4,7 +4,7 @@ class AdventuresController < ApplicationController
   end
 
   def new
-    @current_adventure = current_user.adventures.latest_active.first
+    @current_adventure = current_user.adventures.unclaimed.order(start_at: :desc).first
 
     if @current_adventure
       @current_adventure.check_completion!
@@ -12,7 +12,7 @@ class AdventuresController < ApplicationController
       @adventure_members = @current_adventure.adventure_members.includes(owned_monster: :monster)
     else
       @adventure = Adventure.new
-      @active_monsters = current_user.owned_monsters.active_party
+      @active_monsters = current_user.owned_monsters.active.order(:party_position)
       @dungeons = Dungeon.order(:difficulty)
     end
   end
@@ -23,7 +23,7 @@ class AdventuresController < ApplicationController
       return
     end
 
-    active_monsters = current_user.owned_monsters.active_party
+    active_monsters = current_user.owned_monsters.active.order(:party_position)
 
     if active_monsters.empty?
       redirect_to new_adventure_path, alert: "パーティを編成してください"

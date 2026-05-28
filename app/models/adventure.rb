@@ -23,10 +23,7 @@ class Adventure < ApplicationRecord
     claimed: 3    # 報酬受取済み
   }
 
-  scope :latest_active, -> {
-    where(status: %i[ongoing finished])
-      .order(start_at: :desc)
-  }
+  scope :unclaimed, -> { where(status: %i[ongoing finished]) }
 
   # 残り時間を計算
   def remaining_seconds

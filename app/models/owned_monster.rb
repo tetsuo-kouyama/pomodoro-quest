@@ -7,10 +7,12 @@ class OwnedMonster < ApplicationRecord
   belongs_to :monster
 
   validates :nickname, length: { maximum: 20 }, allow_blank: true
+  validates :party_position, uniqueness: { scope: :user_id }, allow_nil: true
 
   MAX_PARTY_SIZE = 5
 
-  scope :active_party, -> { where(active: true).order(:party_position) }
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
 
   def hp
     monster.base_hp + (level - 1) * hp_growth
