@@ -1,0 +1,14 @@
+<% content_for(:title, "冒険履歴") %>
+<%= render "shared/upper_navigation" %>
+
+<div class="p-5 space-y-4">
+
+  <%# 履歴が空の場合のガードロジック %>
+  <% if @adventures.empty? %>
+    <div class="text-center py-12 bg-white rounded-xl border-2 border-slate-800 text-slate-400 font-black">
+      <p class="mb-2">まだ冒険の履歴がありません</p>
+    </div>
+  <% else %>
+    <%= render @adventures %>
+  <% end %>
+</div>

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :adventures, only: %i[ new create ] do
+  resources :adventures, only: %i[ index new create ] do
     member do
       patch :claim
     end

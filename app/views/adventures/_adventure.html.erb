@@ -1,0 +1,39 @@
+<div class="bg-white p-4 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0_rgba(15,23,42,1)] flex justify-between items-center font-black text-slate-800">
+
+  <%# ダンジョン名と出発時刻 %>
+  <div class="space-y-1">
+    <div class="text-sm flex items-center gap-2">
+      <span class="text-xs px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-slate-500">Lv.<%= adventure.dungeon.difficulty %></span>
+      <span><%= adventure.dungeon.name %></span>
+    </div>
+    <%# 日付のフォーマット %>
+    <div class="text-[10px] text-slate-400">
+      <p>出発: <%= format_adventure_time(adventure.start_at) %></p>
+      <p>帰還: <%= format_adventure_time(adventure.end_at) %></p>
+    </div>
+  </div>
+
+  <%# ステータスに応じた結果と報酬の表示 %>
+  <div class="text-right space-y-1">
+    <% if adventure.ongoing? %>
+      <%# 進行中の場合 %>
+      <span class="text-xs text-amber-500 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 animate-pulse">遠征中</span>
+      <div class="text-xs text-slate-400">帰還予定: <%= format_adventure_clock(adventure.end_at) %></div>
+
+    <% elsif adventure.finished? %>
+      <%# 完了・未受け取りの場合 %>
+      <span class="text-xs text-blue-500 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">帰還完了</span>
+      <div class="text-xs text-fuchsia-500 underline"><%= link_to "報酬を受け取る", new_adventure_path %></div>
+
+    <% else %>
+      <%# 受け取り済み（claimed）＝ 過去の確定した履歴 %>
+      <% if adventure.combat_victory? %>
+        <span class="text-xs text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">勝利</span>
+      <% else %>
+        <span class="text-xs text-rose-500 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">敗北</span>
+      <% end %>
+      <div class="text-sm text-amber-500">+<%= adventure.reward_gold %>G</div>
+    <% end %>
+  </div>
+
+</div>

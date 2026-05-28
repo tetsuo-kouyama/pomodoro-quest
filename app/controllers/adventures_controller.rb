@@ -1,6 +1,6 @@
 class AdventuresController < ApplicationController
   def index
-    @adventures = current_user.adventures.includes(:dungeon).order(created_at: :desc)
+    @adventures = current_user.adventures.includes(:dungeon).order(created_at: :desc).limit(20)
   end
 
   def new
