@@ -1,7 +1,8 @@
 class OwnedMonster < ApplicationRecord
   before_validation :set_default_nickname
+  before_destroy :ensure_not_last_monster
 
-  has_many :adventure_members
+  has_many :adventure_members, dependent: :destroy
   has_many :adventures, through: :adventure_members
   belongs_to :user
   belongs_to :monster
@@ -38,6 +39,14 @@ class OwnedMonster < ApplicationRecord
     (level + 1) * monster.hire_cost
   end
 
+  def locked_for_adventure?
+    user.adventuring? && active?
+  end
+
+  def only_monster?
+    user.owned_monsters.count <= 1
+  end
+
   private
 
   def set_default_nickname
@@ -54,5 +63,12 @@ class OwnedMonster < ApplicationRecord
 
   def def_growth
     5
+  end
+
+  def ensure_not_last_monster
+    return unless only_monster?
+
+    errors.add(:base, "最後のモンスターは解雇できません")
+    throw(:abort)
   end
 end
