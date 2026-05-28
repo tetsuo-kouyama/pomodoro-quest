@@ -18,7 +18,10 @@
   </head>
 
   <body class="bg-gray-100 font-sans min-h-screen pb-24">
-    <%= render "shared/header" if logged_in? %>
+
+    <% if show_navigation? %>
+      <%= render "shared/header" %>
+    <% end %>
 
     <%= render "shared/flash_messages" %>
 
@@ -26,6 +29,8 @@
       <%= yield %>
     </main>
 
-    <%= render "shared/bottom_navigation" if logged_in? %>
+    <% if show_navigation? %>
+      <%= render "shared/bottom_navigation" %>
+    <% end %>
   </body>
 </html>
