@@ -19,12 +19,16 @@ class OwnedMonster < ApplicationRecord
     monster.base_hp + (level - 1) * hp_growth
   end
 
-  def atk
+  def attack
     monster.base_atk + (level - 1) * atk_growth
   end
 
-  def def
+  def defense
     monster.base_def + (level - 1) * def_growth
+  end
+
+  def total_power
+    hp + defense + attack
   end
 
   def increment_level!(user)

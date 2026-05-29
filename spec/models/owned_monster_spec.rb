@@ -78,7 +78,7 @@ RSpec.describe OwnedMonster, type: :model do
         let(:level) { 1 }
 
         it 'base値と同じになる' do
-          expect(owned_monster.atk).to eq(monster.base_atk)
+          expect(owned_monster.attack).to eq(monster.base_atk)
         end
       end
 
@@ -86,7 +86,7 @@ RSpec.describe OwnedMonster, type: :model do
         let(:level) { 2 }
 
         it '成長分が加算される' do
-          expect(owned_monster.atk).to eq(monster.base_atk + (level - 1) * 5)
+          expect(owned_monster.attack).to eq(monster.base_atk + (level - 1) * 5)
         end
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe OwnedMonster, type: :model do
         let(:level) { 1 }
 
         it 'base値と同じになる' do
-          expect(owned_monster.def).to eq(monster.base_def)
+          expect(owned_monster.defense).to eq(monster.base_def)
         end
       end
 
@@ -104,7 +104,7 @@ RSpec.describe OwnedMonster, type: :model do
         let(:level) { 2 }
 
         it '成長分が加算される' do
-          expect(owned_monster.def).to eq(monster.base_def + (level - 1) * 5)
+          expect(owned_monster.defense).to eq(monster.base_def + (level - 1) * 5)
         end
       end
     end
