@@ -1,6 +1,6 @@
 class Adventure < ApplicationRecord
   DURATIONS = [
-    [ "test", 0.1.minutes ],
+    [ "1分", 1.minutes ],
     [ "25分", 25.minutes ],
     [ "60分", 60.minutes ],
     [ "90分", 90.minutes ]
