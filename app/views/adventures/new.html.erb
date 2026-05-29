@@ -38,6 +38,13 @@
           <span class="text-xs font-black text-fuchsia-500 bg-fuchsia-50 px-2 py-0.5 rounded border border-fuchsia-200">編成する →</span>
         </div>
 
+        <div class="flex justify-between items-baseline border-t border-dashed border-slate-200 pt-2 mt-2">
+          <span class="text-xs font-black text-slate-700">パーティ総合力</span>
+          <span class="text-xl font-black text-slate-800">
+            <%= total_party_power(@active_monsters) %>
+          </span>
+        </div>
+
         <div class="space-y-1.5 pl-1">
           <% (1..OwnedMonster::MAX_PARTY_SIZE).each do |i| %>
             <% active_monster = monster_in_slot(@active_monsters, i) %>
@@ -68,7 +75,6 @@
         <%# 冒険時間選択 %>
         <div>
           <%= f.label :required_time, "冒険時間", class: "block text-xs text-slate-400 mb-1" %>
-          <%# 選択のプロンプトを「時間を〜」に修正、w-full を追加 %>
           <%= f.select :required_time,
                 Adventure::DURATIONS,
                 { prompt: "時間を選択してください" },

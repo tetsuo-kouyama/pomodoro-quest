@@ -4,4 +4,8 @@ module PartiesHelper
       monster.party_position == position
     end
   end
+
+  def total_party_power(monsters)
+    monsters.sum(&:total_power)
+  end
 end

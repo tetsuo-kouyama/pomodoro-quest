@@ -40,8 +40,7 @@ class Adventure < ApplicationRecord
   # パーティの合計ステータス計算
   def total_party_power
     adventure_members.includes(owned_monster: :monster).sum do |member|
-      monster = member.owned_monster
-      monster.hp + monster.atk + monster.def
+      member.owned_monster.total_power
     end
   end
 
