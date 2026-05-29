@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe OwnedMonster, type: :model do
+  let(:user) { create(:user) }
+
   describe 'バリデーション' do
     describe 'nickname' do
       it '20文字以下なら有効' do
@@ -31,7 +33,6 @@ RSpec.describe OwnedMonster, type: :model do
     end
 
     describe 'party_position' do
-      let(:user) { create(:user) }
       let!(:owned_monster) { create(:owned_monster, user: user, party_position: 1) }
 
       context '有効の場合' do
@@ -132,6 +133,34 @@ RSpec.describe OwnedMonster, type: :model do
         end.to raise_error(InsufficientGoldError)
         expect(user.reload.gold).to eq(100)
         expect(owned_monster.reload.level).to eq(1)
+      end
+    end
+  end
+
+  describe '#locked_for_adventure?' do
+    let(:owned_monster) { create(:owned_monster, :party_member, user: user) }
+
+    context '冒険中かつ編成中' do
+      before { create(:adventure, :ongoing, user: user) }
+
+      it 'trueを返す' do
+        expect(owned_monster.locked_for_adventure?).to be(true)
+      end
+    end
+
+    context '冒険中ではない' do
+      it 'falseを返す' do
+        expect(owned_monster.locked_for_adventure?).to be(false)
+      end
+    end
+
+    context '編成中ではない' do
+      let(:owned_monster) { create(:owned_monster, user: user, active: false) }
+
+      before { create(:adventure, :ongoing, user: user) }
+
+      it 'falseを返す' do
+        expect(owned_monster.locked_for_adventure?).to be(false)
       end
     end
   end

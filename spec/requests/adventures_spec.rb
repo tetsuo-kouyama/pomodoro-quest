@@ -78,7 +78,6 @@ RSpec.describe 'Adventures', type: :request do
 
     context '既に冒険中の場合' do
       it '新たに冒険できない' do
-        create_list(:owned_monster, 5, :party_member, user: user, monster: monster)
         create(:adventure, :ongoing, :with_members, user: user)
 
         expect do

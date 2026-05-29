@@ -21,6 +21,7 @@ FactoryBot.define do
       status { :claimed }
     end
 
+    # 複数のパーティメンバー
     trait :with_members do
       after(:create) do |adventure|
         monsters = create_list(:owned_monster, 5, :party_member, user: adventure.user)
@@ -33,6 +34,23 @@ FactoryBot.define do
             slot: monster.party_position
           )
         end
+      end
+    end
+
+    # 単体のパーティメンバー
+    trait :with_member do
+      after(:create) do |adventure|
+        party_monster = create(
+          :owned_monster,
+          :party_member,
+          user: adventure.user
+        )
+
+        create(
+          :adventure_member,
+          adventure: adventure,
+          owned_monster: party_monster
+        )
       end
     end
   end

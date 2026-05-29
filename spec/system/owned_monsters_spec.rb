@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'OwnedMonsters', type: :system do
-  let(:user) { create(:user, gold: 100) }
-  let!(:monster) { create(:monster, hire_cost: 100) }
-  let(:owned_monster) { create(:owned_monster, user: user, monster: monster) }
+  let(:user) { create(:user) }
 
   before { login(user) }
 
@@ -25,7 +23,7 @@ RSpec.describe 'OwnedMonsters', type: :system do
     end
 
     context 'モンスターを所有している' do
-      let!(:owned_monster) { create(:owned_monster, user: user, monster: monster) }
+      let!(:owned_monster) { create(:owned_monster, user: user) }
 
       it 'モンスターが表示される' do
         refresh
@@ -42,6 +40,9 @@ RSpec.describe 'OwnedMonsters', type: :system do
   end
 
   describe 'モンスター雇用機能' do
+    let(:user) { create(:user, gold: 100) }
+    let!(:monster) { create(:monster, hire_cost: 100) }
+
     before { visit new_owned_monster_path }
 
     context 'ゴールドが足りている' do
@@ -80,6 +81,9 @@ RSpec.describe 'OwnedMonsters', type: :system do
   end
 
   describe 'モンスター詳細機能' do
+    let(:monster) { create(:monster, hire_cost: 100) }
+    let(:owned_monster) { create(:owned_monster, user: user, monster: monster) }
+
     before { visit owned_monster_path(owned_monster) }
 
     it 'ステータスが表示される' do
@@ -101,6 +105,8 @@ RSpec.describe 'OwnedMonsters', type: :system do
       end
 
       context 'ゴールドが不足している' do
+        let(:user) { create(:user, gold: 100) }
+
         it 'レベルが上がらない' do
           click_button 'レベルアップ'
           expect(page).to have_content('ゴールドが足りません')
@@ -111,13 +117,41 @@ RSpec.describe 'OwnedMonsters', type: :system do
     end
 
     describe '削除機能' do
-      it 'モンスターを削除する' do
-        accept_confirm do
-          click_button '解雇'
+      context '所有モンスターが2体以上' do
+        it 'モンスターを削除できる' do
+          delete_monster = create(:owned_monster, user: user)
+          visit owned_monster_path(delete_monster)
+          accept_confirm do
+            click_link '解雇'
+          end
+          expect(page).to have_current_path(owned_monsters_path)
+          expect(page).to have_content('モンスターを解雇しました')
+          expect(OwnedMonster.exists?(delete_monster.id)).to be(false)
         end
-        expect(page).to have_current_path(owned_monsters_path)
-        expect(page).to have_content('モンスターを解雇しました')
-        expect(OwnedMonster.exists?(owned_monster.id)).to be(false)
+      end
+
+      context '所有モンスターが1体' do
+        it '削除ボタンが表示されない' do
+          expect(page).to have_current_path(owned_monster_path(owned_monster))
+          expect(page).not_to have_link('解雇')
+          expect(OwnedMonster.exists?(owned_monster.id)).to be(true)
+        end
+      end
+    end
+
+    describe '冒険中モンスターへの操作制限' do
+      let!(:adventure) { create(:adventure, :ongoing, :with_member, user: user) }
+      let(:adventuring_monster) { adventure.adventure_members.first.owned_monster }
+
+      before { visit owned_monster_path(adventuring_monster) }
+
+      it 'レベルアップボタンが表示されない' do
+        expect(page).to have_content('冒険中')
+        expect(page).not_to have_button('レベルアップ')
+      end
+
+      it '削除ボタンが表示されない' do
+        expect(page).not_to have_link('解雇')
       end
     end
   end
