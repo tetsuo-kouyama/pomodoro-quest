@@ -49,6 +49,27 @@ RSpec.describe OwnedMonster, type: :model do
         end
       end
     end
+
+    describe 'level' do
+      context '有効の場合' do
+        it 'レベルが上限値と同じ' do
+          monster = build(:owned_monster, level: OwnedMonster::MAX_LEVEL)
+          expect(monster).to be_valid
+        end
+
+        it 'レベルが上限値より低い' do
+          monster = build(:owned_monster, level: OwnedMonster::MAX_LEVEL - 1)
+          expect(monster).to be_valid
+        end
+      end
+
+      context '無効の場合' do
+        it 'レベルが上限値を超える' do
+          monster = build(:owned_monster, level: OwnedMonster::MAX_LEVEL + 1)
+          expect(monster).to be_invalid
+        end
+      end
+    end
   end
 
   describe 'ステータス処理' do
@@ -133,6 +154,26 @@ RSpec.describe OwnedMonster, type: :model do
         end.to raise_error(InsufficientGoldError)
         expect(user.reload.gold).to eq(100)
         expect(owned_monster.reload.level).to eq(1)
+      end
+    end
+
+    context 'レベルが上限値と同じ' do
+      let(:owned_monster) { create(:owned_monster, level: OwnedMonster::MAX_LEVEL) }
+
+      it '例外を発生させる' do
+        expect {
+          owned_monster.increment_level!(user)
+        }.to raise_error(LevelMaxReachedError)
+      end
+    end
+
+    context 'レベルが上限値以下' do
+      let(:owned_monster) { create(:owned_monster, level: OwnedMonster::MAX_LEVEL - 1) }
+
+      it 'レベルが上がる' do
+        expect do
+          owned_monster.increment_level!(user)
+        end.not_to raise_error
       end
     end
   end

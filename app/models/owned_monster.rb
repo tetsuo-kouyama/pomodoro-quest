@@ -1,4 +1,7 @@
 class OwnedMonster < ApplicationRecord
+  MAX_PARTY_SIZE = 5
+  MAX_LEVEL = 10
+
   before_validation :set_default_nickname
   before_destroy :ensure_not_last_monster
 
@@ -8,9 +11,9 @@ class OwnedMonster < ApplicationRecord
   belongs_to :monster
 
   validates :nickname, length: { maximum: 20 }, allow_blank: true
+  validates :level, numericality: { less_than_or_equal_to: MAX_LEVEL }
   validates :party_position, uniqueness: { scope: :user_id }, allow_nil: true
 
-  MAX_PARTY_SIZE = 5
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
@@ -32,6 +35,7 @@ class OwnedMonster < ApplicationRecord
   end
 
   def increment_level!(user)
+    raise LevelMaxReachedError if level >= MAX_LEVEL
     raise InsufficientGoldError if user.gold < next_level_cost
     transaction do
       user.decrement!(:gold, next_level_cost)
@@ -49,6 +53,10 @@ class OwnedMonster < ApplicationRecord
 
   def only_monster?
     user.owned_monsters.count <= 1
+  end
+
+  def level_max?
+    level >= MAX_LEVEL
   end
 
   private

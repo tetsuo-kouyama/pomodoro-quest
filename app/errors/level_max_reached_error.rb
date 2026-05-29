@@ -1,0 +1,1 @@
+class LevelMaxReachedError < StandardError; end

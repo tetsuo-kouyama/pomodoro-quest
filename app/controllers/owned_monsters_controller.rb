@@ -43,6 +43,8 @@ class OwnedMonstersController < ApplicationController
 
   rescue InsufficientGoldError
     redirect_to owned_monster_path(@owned_monster), alert: "ゴールドが足りません(必要: #{@owned_monster.next_level_cost}G / 所持: #{current_user.gold}G)"
+  rescue LevelMaxReachedError
+    redirect_to @owned_monster, alert: "これ以上レベルを上げられません"
   end
 
 
