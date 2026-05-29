@@ -49,9 +49,8 @@ class Adventure < ApplicationRecord
     dungeon.difficulty * 100
   end
 
-  # 勝利判定
   def combat_victory?
-    total_party_power >= enemy_power
+    total_party_power >= dungeon.enemy_power
   end
 
   # 冒険に出発させるパーティメンバーと冒険データを紐付ける
