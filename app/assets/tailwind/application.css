@@ -4,7 +4,7 @@
    トップページ用スタイル
    ========================================== */
 .top-page-container {
-  @apply min-h-screen w-full flex flex-col items-center justify-center;
+  @apply min-h-screen w-full flex flex-col items-center pt-32;
 }
 
 .top-page-title {
@@ -24,7 +24,7 @@
    ========================================== */
 @layer utilities {
   .auth-container {
-    @apply fixed inset-0 flex flex-col items-center justify-center bg-white p-5;
+    @apply fixed inset-0 flex flex-col items-center justify-center p-5;
   }
 
   .auth-title {
