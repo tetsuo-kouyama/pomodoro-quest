@@ -1,4 +1,4 @@
-# ポモクエ（仮）
+# ポモクエ
 ## 公開URL
 https://pomodoro-quest.onrender.com
 
