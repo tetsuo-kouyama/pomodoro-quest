@@ -27,14 +27,14 @@ RSpec.describe 'OwnedMonsters', type: :system do
 
       it 'モンスターが表示される' do
         refresh
-        expect(page).to have_content('所持: 1体')
+        expect(page).to have_content("1 / #{OwnedMonster::MAX_MONSTER_COUNT}")
         expect(page).to have_content(owned_monster.nickname)
       end
     end
 
     context 'モンスターを所有していない' do
       it 'モンスターが表示されない' do
-        expect(page).to have_content('所持: 0体')
+        expect(page).to have_content(" 0 / #{OwnedMonster::MAX_MONSTER_COUNT}")
       end
     end
   end

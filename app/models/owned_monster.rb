@@ -1,6 +1,7 @@
 class OwnedMonster < ApplicationRecord
   MAX_PARTY_SIZE = 5
   MAX_LEVEL = 10
+  MAX_MONSTER_COUNT = 10
 
   before_validation :set_default_nickname
   before_destroy :ensure_not_last_monster
@@ -13,6 +14,7 @@ class OwnedMonster < ApplicationRecord
   validates :nickname, length: { maximum: 20 }, allow_blank: true
   validates :level, numericality: { less_than_or_equal_to: MAX_LEVEL }
   validates :party_position, uniqueness: { scope: :user_id }, allow_nil: true
+  validate :check_monster_limit, on: :create
 
 
   scope :active, -> { where(active: true) }
@@ -82,5 +84,11 @@ class OwnedMonster < ApplicationRecord
 
     errors.add(:base, "最後のモンスターは解雇できません")
     throw(:abort)
+  end
+
+  def check_monster_limit
+    return if user.owned_monsters.count < MAX_MONSTER_COUNT
+
+    errors.add(:base, "モンスターの雇用上限（#{MAX_MONSTER_COUNT}体）に達しています")
   end
 end

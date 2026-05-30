@@ -9,11 +9,11 @@
   </div>
 
   <div class="mb-6">
-    <h1 class="text-3xl font-bold">モンスター一覧</h1>
-
-    <p class="text-gray-500 mt-1">
-      所持: <%= current_user.owned_monsters.count %>体
-    </p>
+    <h1 class="text-3xl font-bold mb-3">モンスター一覧</h1>
+    <br>
+    <span class="bg-slate-100 text-slate-600 text-xs font-black px-2.5 py-1 rounded-full border border-slate-300">
+      <%= @owned_monsters.count %> / <%= OwnedMonster::MAX_MONSTER_COUNT %>
+    </span>
   </div>
 
   <div class="space-y-4">

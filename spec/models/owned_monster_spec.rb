@@ -52,21 +52,41 @@ RSpec.describe OwnedMonster, type: :model do
 
     describe 'level' do
       context '有効の場合' do
-        it 'レベルが上限値と同じ' do
+        it 'レベルが上限に達している' do
           monster = build(:owned_monster, level: OwnedMonster::MAX_LEVEL)
           expect(monster).to be_valid
         end
 
-        it 'レベルが上限値より低い' do
+        it 'レベルが上限より低い' do
           monster = build(:owned_monster, level: OwnedMonster::MAX_LEVEL - 1)
           expect(monster).to be_valid
         end
       end
 
       context '無効の場合' do
-        it 'レベルが上限値を超える' do
+        it 'レベルが上限を超える' do
           monster = build(:owned_monster, level: OwnedMonster::MAX_LEVEL + 1)
           expect(monster).to be_invalid
+        end
+      end
+    end
+
+    describe 'monster limit validation' do
+      let(:owned_monster) { build(:owned_monster, user: user) }
+
+      context '有効の場合' do
+        before { create_list(:owned_monster, OwnedMonster::MAX_MONSTER_COUNT - 1, user: user) }
+
+        it '所有数が上限未満' do
+          expect(owned_monster).to be_valid
+        end
+      end
+
+      context '無効の場合' do
+        before { create_list(:owned_monster, OwnedMonster::MAX_MONSTER_COUNT, user: user) }
+
+        it '所有数が上限に達している' do
+          expect(owned_monster).to be_invalid
         end
       end
     end
